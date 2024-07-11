@@ -1,0 +1,3 @@
+PyQt6
+Cython
+scipy
