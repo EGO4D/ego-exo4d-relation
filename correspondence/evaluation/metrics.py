@@ -33,7 +33,7 @@ def db_eval_iou(annotation, segmentation, void_pixels=None):
     inters = np.sum((segmentation & annotation) & np.logical_not(void_pixels), axis=(-2, -1))
     union = np.sum((segmentation | annotation) & np.logical_not(void_pixels), axis=(-2, -1))
 
-    j = inters / union
+    j = inters / (union + 1e-7)
     if j.ndim == 0:
         j = 1 if np.isclose(union, 0) else j
     else:

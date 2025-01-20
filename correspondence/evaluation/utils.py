@@ -3,6 +3,32 @@ import cv2
 
 import metrics
 
+def reshape_img_nopad(img, max_dim=480):
+    H, W = img.shape[:2]
+    if H > W:
+        ratio = 1. / H * max_dim
+    else:
+        ratio = 1. / W * max_dim
+    newH, newW = int(H * ratio), int(W * ratio)
+    img = cv2.resize(img, (newW, newH), interpolation=cv2.INTER_NEAREST)
+    return img
+
+def remove_pad(img, orig_size):
+    cur_H, cur_W = img.shape[:2]
+    orig_H, orig_W = orig_size
+    if orig_W > orig_H:
+        ratio = 1. / orig_W * cur_W
+    else:
+        ratio = 1. / orig_H * cur_H
+    new_H, new_W = int(orig_H * ratio), int(orig_W * ratio)
+    if new_W > new_H:
+        diff_H = (cur_H - new_H) // 2
+        img = img[diff_H:-diff_H]
+    else:
+        diff_W = (cur_W - new_W) // 2
+        img = img[:, diff_W:-diff_W]
+    return img
+
 def eval_mask(gt_masks: np.ndarray, fake_masks: np.ndarray):
     """TODO: Docstring for eval_mask.
 

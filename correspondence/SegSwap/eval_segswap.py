@@ -240,5 +240,5 @@ if __name__ == '__main__':
 
     os.makedirs(args.out_path, exist_ok=True)
     with open(f"{args.out_path}/{args.setting}_{args.split}_results.json", "w") as fp:
-        json.dump({args.setting: {'results': results}})
+        json.dump({args.setting: {'results': results}}, fp)
 

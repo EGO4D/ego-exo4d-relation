@@ -57,17 +57,15 @@ def evaluate_take(gt, pred):
                 else:
                     gt_mask = mask_utils.decode(gt_masks_ego[frame_idx])
                     # reshaping without padding for evaluation
-                    # # TODO: remove from here: move to inference script
-                    # gt_mask = utils.reshape_img_nopad(gt_mask)
+                    gt_mask = utils.reshape_img_nopad(gt_mask)
 
                     gt_obj_exists = 1
 
                 try:
                     pred_mask = mask_utils.decode(pred_masks_ego[frame_idx]["pred_mask"])
                     # remove padding from the predictions
-                    # # TODO: remove from here: move to inference script
-                    # if not gt_mask is None:
-                    #     pred_mask = utils.remove_pad(pred_mask, orig_size=gt_mask.shape[:2])
+                    if not gt_mask is None:
+                        pred_mask = utils.remove_pad(pred_mask, orig_size=gt_mask.shape[:2])
                 except:
                     breakpoint()
 
@@ -112,11 +110,8 @@ def validate_predictions(gt, preds):
     preds = preds["exo-ego"]
 
     assert type(preds) == type({})
-    for key in ["version", "challenge", "results"]:
+    for key in ["results"]:
         assert key in preds.keys()
-
-    assert preds["version"] == gt["version"]
-    assert preds["challenge"] == gt["challenge"]
 
     assert len(preds["results"]) == len(gt["annotations"])
     for take_id in gt["annotations"]:
