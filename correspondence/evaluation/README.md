@@ -1,4 +1,9 @@
-To run the evaluation, run the following command:
+To run the evaluation, first process the annotations  
+```
+python process_annotations.py --data_path /path/to/processed/data/ --annotations_path /path/to/relations_{train/test/val}.json --split {train/test/val} --output_path /path/to/output/correspondence-gt.json
+```
+
+then run the following command:
 ```
 # for ego-exo
 python evaluate_egoexo.py --gt-file /path/to/correspondence-gt.json --pred-file /path/to/pred.json 

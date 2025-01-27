@@ -72,7 +72,7 @@ for exo->ego,
 python eval_segswap.py --ckpt_path /path/to/checkpoint.pth --data_path /path/to/data --splits_path /path/to/data/split.json  --split test --out_path /path/to/output/ --setting exo-ego
 ```
 
-the above command with produce a `ego-exo_test_results.json`/`exo-ego_test_results.json` file which can be then be used to run evaluation as described [here](../final_evaluation/).
+the above command should produce a `ego-exo_test_results.json`/`exo-ego_test_results.json` file which can be then be used to run evaluation as described [here](https://github.com/EGO4D/ego-exo4d-relation/tree/main/correspondence/evaluation).
 
 ## 5. Acknowledgement
 

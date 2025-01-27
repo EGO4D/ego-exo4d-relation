@@ -52,3 +52,19 @@ def getMidBinning(gt_mask, pred_mask, bin_size=5):
     pred_bin_x, pred_bin_y = pred_x // bin_size, pred_y // bin_size
 
     return (gt_bin_x == pred_bin_x) and (gt_bin_y == pred_bin_y)
+
+def remove_pad(img, orig_size):
+    cur_H, cur_W = img.shape[:2]
+    orig_H, orig_W = orig_size
+    if orig_W > orig_H:
+        ratio = 1. / orig_W * cur_W
+    else:
+        ratio = 1. / orig_H * cur_H
+    new_H, new_W = int(orig_H * ratio), int(orig_W * ratio)
+    if new_W > new_H:
+        diff_H = (cur_H - new_H) // 2
+        img = img[diff_H:-diff_H]
+    else:
+        diff_W = (cur_W - new_W) // 2
+        img = img[:, diff_W:-diff_W]
+    return img

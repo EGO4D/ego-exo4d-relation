@@ -268,7 +268,7 @@ def TrainDataLoader(img_dir_list, transform, batch_size, prob_style, prob_dir, t
 
 def ValDataLoader(img_dir_list, transform, batch_size, prob_style, prob_dir, tps_grid,  img_size=(480, 480), reverse=False):
 
-    valSet = ImageFolderTrain(img_dir_list, transform, prob_style, prob_dir, tps_grid, img_size, reverse=reverse, num_pairs=500, train=False)
+    valSet = ImageFolderTrain(img_dir_list, transform, prob_style, prob_dir, tps_grid, img_size, reverse=reverse, train=False)
     valLoader = DataLoader(dataset=valSet, batch_size=batch_size, shuffle=True, num_workers=8, drop_last = True)
 
     return valLoader

@@ -46,7 +46,7 @@ Run:
 python scripts/merge_pred.py --pred /inference/output/ --input /path/to/data --gt /path/to/correspondence-gt.json --split test
 python scripts/merge_results.py --input_dir /path/to/data --split test --pred_dir /inference/output/coco # add --swap for exo->ego
 ```
-`final_results.json` will be saved in `/inference/output/`. The file can be then be used to run evaluation as described [here](https://github.com/3dlg-hcvc/correspondence/tree/release/final_evaluation).
+`final_results.json` will be saved in `/inference/output/`. The file can be then be used to run evaluation as described [here](https://github.com/EGO4D/ego-exo4d-relation/tree/main/correspondence/evaluation).
 
 ## 5. Acknowledgement
 

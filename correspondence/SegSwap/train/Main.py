@@ -204,7 +204,7 @@ for epoch in range(args.resume_epoch, args.n_epoch) :
     msg = '{} TRAINING Epoch {:d} | Loss : {:.3f}  Acc : {:.3f}%  Pos : {:.3f}%  Neg : {:.3f}% '.format(datetime.now().time(), epoch, history['trainLoss'][-1], history['trainAcc'][-1] * 100, history['trainPosAcc'][-1] * 100, history['trainNegAcc'][-1] * 100)
     logger.info(msg)
 
-    backbone, netEncoder, val_history = Train.evalEpoch(trainLoader, backbone, netEncoder, val_history, Loss, ClsLoss, args.batch_pos, args.batch_neg, args.warp_mask, logger, args.eta_corr, args.iter_epoch_val, epoch, args.lr, writer, warmup=False)
+    backbone, netEncoder, val_history = Train.evalEpoch(valLoader, backbone, netEncoder, val_history, Loss, ClsLoss, args.batch_pos, args.batch_neg, args.warp_mask, logger, args.eta_corr, args.iter_epoch_val, epoch, args.lr, writer, warmup=False)
     msg = '{} VAL Epoch {:d} | Loss : {:.3f} MIoU : {:.3f} Acc : {:.3f}%  Pos : {:.3f}%  Neg : {:.3f}% '.format(datetime.now().time(), epoch, val_history['valLoss'][-1], val_history['valMIoU'][-1], val_history['valAcc'][-1] * 100, val_history['valPosAcc'][-1] * 100, val_history['valNegAcc'][-1] * 100)
     logger.info(msg)
     

@@ -27,7 +27,6 @@ def evaluate_take(gt, pred):
 
     for object_id in gt['masks'].keys():
         ego_cams = [x for x in gt['masks'][object_id].keys() if 'aria' in x]
-        # TODO: remove takes with no ego cam annotations from gt
         if len(ego_cams) < 1:
             continue
         assert len(ego_cams) == 1
@@ -63,9 +62,6 @@ def evaluate_take(gt, pred):
 
                 try:
                     pred_mask = mask_utils.decode(pred_masks_ego[frame_idx]["pred_mask"])
-                    # remove padding from the predictions
-                    if not gt_mask is None:
-                        pred_mask = utils.remove_pad(pred_mask, orig_size=gt_mask.shape[:2])
                 except:
                     breakpoint()
 
@@ -135,12 +131,10 @@ def validate_predictions(gt, preds):
             try:
                 assert not ego_cam is None
             except:
-                #TODO: post process gt to not include these objects without aria annotations
                 continue
             try:
                 assert len(exo_cams) > 0
             except:
-                #TODO: post process gt to not include these objects with only aria annotations
                 continue
 
             for cam in exo_cams:

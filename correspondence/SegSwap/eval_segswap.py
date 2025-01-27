@@ -17,6 +17,7 @@ import transformer # model
 import tqdm
 
 from pycocotools import mask as mask_utils
+import utils
 
 MASKThresh = 0.5
 
@@ -124,9 +125,12 @@ def forward_pass(backbone, netEncoder, tensor1, tensor2, tensor3):
     return m1_final, m2_final, m3_final
 
 
-def load_frame(path, frame_idx):
+def load_frame(path, frame_idx, ret_size=False):
     img = cv2.imread(os.path.join(path, f'{frame_idx}.jpg'))[..., ::-1]
+    orig_size = img.shape[:-1]
     img = Image.fromarray(reshape_img_war(img))
+    if ret_size:
+        return img, orig_size
     return img
 
 def egoexo(backbone, netEncoder, annotations, ego, exo, obj, take, anno_path, pred_json):
@@ -138,12 +142,13 @@ def egoexo(backbone, netEncoder, annotations, ego, exo, obj, take, anno_path, pr
         ego_mask = mask_utils.decode(annotations['masks'][obj][ego][idx])
         ego_mask = reshape_img_war(ego_mask)
 
-        exo_frame = load_frame(path=f'{anno_path}/{take}/{exo}/', frame_idx=idx)
+        exo_frame, exo_size = load_frame(path=f'{anno_path}/{take}/{exo}/', frame_idx=idx, ret_size=True)
 
         Ix, Iy, tensor1, tensor2, tensor3 = get_tensors(ego_frame, exo_frame, ego_mask)
         mx, my, confidence = forward_pass(backbone, netEncoder, tensor1, tensor2, tensor3)
 
         y_step = (my > MASKThresh)
+        y_step = utils.remove_pad(y_step, orig_size=exo_size)
 
         exo_pred = mask_utils.encode(np.asfortranarray(y_step.astype(np.uint8)))
         exo_pred['counts'] = exo_pred['counts'].decode('ascii')
