@@ -15,9 +15,9 @@ python evaluate_exoego.py --gt-file /path/to/correspondence-gt.json --pred-file 
 The prediction gt expects the following structure.  
 ```json
 {   
-    "version": "xx",
-    "challenge": "correspondence",
     "ego-exo": {
+        "version": "xx",
+        "challenge": "xx",
         "results": {
             "take-id": { //take-id as in gt. 
                 "masks" : {
@@ -42,6 +42,8 @@ The prediction gt expects the following structure.
         }
     },
     "exo-ego" : {
+        "version": "xx",
+        "challenge": "xx",
         "results": {
             "take-id": { //take-id as in gt. 
                 "masks" : {
@@ -67,3 +69,13 @@ The prediction gt expects the following structure.
     }
 }
 ```
+
+### EvalAI Challenge Submission
+
+Once you have prediction jsons for both ego-exo and exo-ego settings, you can use [this script](evalai/generate_evalai_submission.py) to generate a submission json for the evalai correspondence challenge,
+
+```
+python evaluation/evalai/generate_evalai_submission.py --ego_exo_preds /path/to/ego-exo-preds.json --exo_ego_preds /path/to/exo-ego-preds.json --output_path /path/to/output/dir/
+```
+
+this should generate a `submission.json` at `output_path` which is ready to be submitted to [evalai challenge](https://eval.ai/web/challenges/challenge-page/2288/overview).
